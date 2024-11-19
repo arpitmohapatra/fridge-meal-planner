@@ -6,11 +6,14 @@ import {
   Typography,
   Container,
   Box,
-  List,
-  ListItem,
-  Button,
+  BottomNavigation,
+  BottomNavigationAction,
+  Paper,
   Alert,
 } from "@mui/material";
+import KitchenIcon from "@mui/icons-material/Kitchen";
+import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
+import SettingsIcon from "@mui/icons-material/Settings";
 import InventoryPage from "./pages/InventoryPage";
 import MealPlannerPage from "./pages/MealPlannerPage";
 import PredefinedMealsManager from "./pages/PredefinedMealsManager";
@@ -20,16 +23,17 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#2196f3", // You can customize this color
+      main: "#2196f3",
     },
     secondary: {
-      main: "#f50057", // You can customize this color
+      main: "#f50057",
     },
   },
 });
 
 function App() {
   const [notificationEnabled, setNotificationEnabled] = useState(false);
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
     const initNotifications = async () => {
@@ -42,23 +46,12 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ pb: 7 }}>
           <AppBar position="static">
             <Toolbar>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                Fridge Meal Planner
+                Meal Planner
               </Typography>
-              <Box sx={{ display: "flex", gap: 2 }}>
-                <Button color="inherit" component={Link} to="/inventory">
-                  Inventory
-                </Button>
-                <Button color="inherit" component={Link} to="/meal-planner">
-                  Meal Planner
-                </Button>
-                <Button color="inherit" component={Link} to="/meal-manager">
-                  Manage Meals
-                </Button>
-              </Box>
             </Toolbar>
           </AppBar>
 
@@ -83,6 +76,38 @@ function App() {
               />
             </Routes>
           </Container>
+
+          <Paper
+            sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+            elevation={3}
+          >
+            <BottomNavigation
+              value={value}
+              onChange={(event, newValue) => {
+                setValue(newValue);
+              }}
+              showLabels
+            >
+              <BottomNavigationAction
+                component={Link}
+                to="/inventory"
+                label="Inventory"
+                icon={<KitchenIcon />}
+              />
+              <BottomNavigationAction
+                component={Link}
+                to="/meal-planner"
+                label="Meals"
+                icon={<RestaurantMenuIcon />}
+              />
+              <BottomNavigationAction
+                component={Link}
+                to="/meal-manager"
+                label="Settings"
+                icon={<SettingsIcon />}
+              />
+            </BottomNavigation>
+          </Paper>
         </Box>
       </Router>
     </ThemeProvider>

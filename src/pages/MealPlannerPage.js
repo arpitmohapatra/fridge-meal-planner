@@ -34,15 +34,26 @@ function MealPlannerPage() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ py: 2, px: { xs: 2, sm: 3, md: 4 } }}>
       <Box
         display="flex"
+        flexDirection={{ xs: "column", sm: "row" }}
         justifyContent="space-between"
-        alignItems="center"
-        mb={4}
+        alignItems={{ xs: "flex-start", sm: "center" }}
+        gap={2}
+        mb={3}
       >
-        <Typography variant="h3" component="h1" gutterBottom>
-          <RestaurantIcon sx={{ mr: 2, fontSize: 35 }} />
+        <Typography
+          variant="h4"
+          component="h1"
+          gutterBottom
+          sx={{
+            fontSize: { xs: "1.75rem", sm: "2rem", md: "2.5rem" },
+          }}
+        >
+          <RestaurantIcon
+            sx={{ mr: 1, fontSize: { xs: 28, sm: 32, md: 35 } }}
+          />
           Weekly Meal Plan
         </Typography>
         <Button
@@ -50,31 +61,48 @@ function MealPlannerPage() {
           color="primary"
           onClick={regenerateMealPlan}
           startIcon={<RefreshIcon />}
+          fullWidth
+          sx={{
+            maxWidth: { xs: "100%", sm: "auto" },
+          }}
         >
           Regenerate Plan
         </Button>
       </Box>
 
-      <Grid2 container spacing={3}>
+      <Grid2 container spacing={2}>
         {Object.entries(mealPlan).map(([day, meals]) => (
-          <Grid2 item xs={12} md={6} lg={4} key={day}>
+          <Grid2 item xs={12} sm={6} lg={4} key={day}>
             <Card elevation={3}>
-              <CardContent>
+              <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
                 <Typography
                   variant="h5"
                   component="h2"
                   gutterBottom
                   color="primary"
+                  sx={{ fontSize: { xs: "1.25rem", sm: "1.5rem" } }}
                 >
                   {day}
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography
+                  variant="body1"
+                  gutterBottom
+                  sx={{ fontSize: { xs: "0.875rem", sm: "1rem" } }}
+                >
                   <strong>Breakfast:</strong> {meals.breakfast.name}
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography
+                  variant="body1"
+                  gutterBottom
+                  sx={{ fontSize: { xs: "0.875rem", sm: "1rem" } }}
+                >
                   <strong>Lunch:</strong> {meals.lunch.name}
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography
+                  variant="body1"
+                  gutterBottom
+                  sx={{ fontSize: { xs: "0.875rem", sm: "1rem" } }}
+                >
                   <strong>Dinner:</strong> {meals.dinner.name}
                 </Typography>
               </CardContent>

@@ -16,10 +16,15 @@ import {
   CardContent,
   Typography,
   IconButton,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 function InventoryPage() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [inventory, setInventory] = useState([]);
   const [newItem, setNewItem] = useState({
     name: "",
@@ -29,12 +34,9 @@ function InventoryPage() {
   });
 
   useEffect(() => {
-    // Load inventory on component mount
     const loadInventory = () => {
       const items = getFridgeItems();
       setInventory(items);
-
-      // Check for low stock and send notifications
       const lowStockItems = checkLowStockItems();
       setupLowStockNotifications(lowStockItems);
     };
@@ -55,8 +57,14 @@ function InventoryPage() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 4 }}>
-      <Grid2 container spacing={2}>
+    <Container
+      maxWidth="sm"
+      sx={{
+        mt: 2,
+        px: isMobile ? 1 : 2,
+      }}
+    >
+      <Grid2 container spacing={isMobile ? 1 : 2}>
         <Grid2 item xs={12}>
           <TextField
             fullWidth
@@ -64,6 +72,7 @@ function InventoryPage() {
             variant="outlined"
             value={newItem.name}
             onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+            size={isMobile ? "small" : "medium"}
           />
         </Grid2>
         <Grid2 item xs={12}>
@@ -76,6 +85,7 @@ function InventoryPage() {
             onChange={(e) =>
               setNewItem({ ...newItem, quantity: parseInt(e.target.value) })
             }
+            size={isMobile ? "small" : "medium"}
           />
         </Grid2>
         <Grid2 item xs={12}>
@@ -83,6 +93,7 @@ function InventoryPage() {
             variant="contained"
             fullWidth
             onClick={(e) => handleAddItem(e)}
+            size={isMobile ? "small" : "medium"}
           >
             Add Item
           </Button>
@@ -93,14 +104,26 @@ function InventoryPage() {
               <CardContent
                 sx={{
                   display: "flex",
+                  flexDirection: isMobile ? "column" : "row",
                   justifyContent: "space-between",
-                  alignItems: "center",
+                  alignItems: isMobile ? "stretch" : "center",
+                  py: isMobile ? 1 : 2,
+                  px: isMobile ? 1 : 2,
                 }}
               >
-                <Typography variant="body1">
+                <Typography
+                  variant={isMobile ? "body2" : "body1"}
+                  sx={{ mb: isMobile ? 1 : 0 }}
+                >
                   {item.name} - Quantity: {item.quantity}
                 </Typography>
-                <div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: isMobile ? "center" : "flex-end",
+                    gap: "8px",
+                  }}
+                >
                   <IconButton
                     onClick={() => {
                       const updatedItem = {
@@ -115,6 +138,7 @@ function InventoryPage() {
                       );
                     }}
                     color="primary"
+                    size={isMobile ? "small" : "medium"}
                   >
                     +
                   </IconButton>
@@ -135,14 +159,16 @@ function InventoryPage() {
                     }}
                     color="secondary"
                     disabled={item.quantity === 0}
+                    size={isMobile ? "small" : "medium"}
                   >
                     -
                   </IconButton>
                   <IconButton
                     onClick={() => handleDeleteItem(item.id)}
                     color="error"
+                    size={isMobile ? "small" : "medium"}
                   >
-                    <DeleteIcon />
+                    <DeleteIcon fontSize={isMobile ? "small" : "medium"} />
                   </IconButton>
                 </div>
               </CardContent>

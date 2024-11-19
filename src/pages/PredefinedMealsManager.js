@@ -95,10 +95,33 @@ const PredefinedMealsManager = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 800, margin: "0 auto", p: 3 }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
-        <Typography variant="h5">Predefined Meals</Typography>
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: { sm: 600, md: 800 },
+        margin: "0 auto",
+        p: { xs: 2, sm: 3 },
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
+          alignItems: { xs: "stretch", sm: "center" },
+          justifyContent: "space-between",
+          gap: 2,
+          mb: 3,
+        }}
+      >
+        <Typography
+          variant="h5"
+          sx={{ textAlign: { xs: "center", sm: "left" } }}
+        >
+          Predefined Meals
+        </Typography>
         <Button
+          fullWidth
+          sx={{ maxWidth: { sm: "auto" } }}
           variant="contained"
           startIcon={<AddIcon />}
           onClick={handleOpenDialog}
@@ -109,19 +132,40 @@ const PredefinedMealsManager = () => {
 
       {["breakfast", "lunch", "dinner"].map((mealType) => (
         <Box key={mealType} sx={{ mb: 4 }}>
-          <Typography variant="h6" sx={{ textTransform: "capitalize", mb: 2 }}>
+          <Typography
+            variant="h6"
+            sx={{
+              textTransform: "capitalize",
+              mb: 2,
+              textAlign: { xs: "center", sm: "left" },
+            }}
+          >
             {mealType}
           </Typography>
-          <List>
+          <List sx={{ p: 0 }}>
             {meals[mealType]?.map((meal, index) => (
-              <Paper key={index} sx={{ mb: 2, p: 2 }}>
-                <ListItem>
+              <Paper key={index} sx={{ mb: 2, p: { xs: 1, sm: 2 } }}>
+                <ListItem sx={{ px: { xs: 1, sm: 2 }, py: { xs: 2, sm: 1 } }}>
                   <ListItemText
-                    primary={meal.name}
+                    primary={
+                      <Typography sx={{ wordBreak: "break-word" }}>
+                        {meal.name}
+                      </Typography>
+                    }
                     secondary={
-                      <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        sx={{ mt: 1 }}
+                        flexWrap="wrap"
+                      >
                         {meal.ingredients.map((ingredient, i) => (
-                          <Chip key={i} label={ingredient} size="small" />
+                          <Chip
+                            key={i}
+                            label={ingredient}
+                            size="small"
+                            sx={{ mb: 1 }}
+                          />
                         ))}
                       </Stack>
                     }
@@ -147,8 +191,16 @@ const PredefinedMealsManager = () => {
         onClose={handleCloseDialog}
         maxWidth="sm"
         fullWidth
+        sx={{
+          "& .MuiDialog-paper": {
+            margin: { xs: 2, sm: "auto" },
+            width: { xs: "calc(100% - 32px)", sm: "600px" },
+          },
+        }}
       >
-        <DialogTitle>Add New Predefined Meal</DialogTitle>
+        <DialogTitle sx={{ textAlign: { xs: "center", sm: "left" } }}>
+          Add New Predefined Meal
+        </DialogTitle>
         <DialogContent>
           <Box sx={{ pt: 2 }}>
             <TextField
@@ -173,7 +225,14 @@ const PredefinedMealsManager = () => {
               </Select>
             </FormControl>
 
-            <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                gap: 1,
+                mb: 2,
+              }}
+            >
               <TextField
                 fullWidth
                 label="Add Ingredient"
@@ -188,7 +247,11 @@ const PredefinedMealsManager = () => {
                   }
                 }}
               />
-              <Button variant="contained" onClick={handleAddIngredient}>
+              <Button
+                variant="contained"
+                onClick={handleAddIngredient}
+                sx={{ width: { xs: "100%", sm: "auto" } }}
+              >
                 Add
               </Button>
             </Box>
@@ -205,12 +268,26 @@ const PredefinedMealsManager = () => {
             </Stack>
           </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
+        <DialogActions
+          sx={{
+            flexDirection: { xs: "column", sm: "row" },
+            p: { xs: 2, sm: 2 },
+            gap: { xs: 1, sm: 0 },
+          }}
+        >
+          <Button
+            onClick={handleCloseDialog}
+            fullWidth
+            sx={{ maxWidth: { sm: "auto" } }}
+          >
+            Cancel
+          </Button>
           <Button
             onClick={handleSubmit}
             variant="contained"
             disabled={!newMeal.name || newMeal.ingredients.length === 0}
+            fullWidth
+            sx={{ maxWidth: { sm: "auto" } }}
           >
             Save Meal
           </Button>

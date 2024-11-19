@@ -1,6 +1,7 @@
 {
   "name": "fridge-meal-planner",
   "version": "0.1.0",
+  "homepage": "https://arpitmohapatra.github.io/fridge-meal-planner/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.13.3",

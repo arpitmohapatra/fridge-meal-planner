@@ -1,32 +1,16 @@
 import React, { useState } from "react";
 import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Paper,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  IconButton,
-  Chip,
-  Stack,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
-import {
   savePredefinedMeals,
   getPredefinedMeals,
 } from "../services/mealPlanService";
+
+// Import shadcn UI components
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Card, CardContent } from "../components/ui/card";
+import * as Dialog from "@radix-ui/react-dialog";
+import { X, Plus, Trash } from "lucide-react";
 
 const PredefinedMealsManager = () => {
   const [meals, setMeals] = useState(getPredefinedMeals());
@@ -95,205 +79,174 @@ const PredefinedMealsManager = () => {
   };
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        maxWidth: { sm: 600, md: 800 },
-        margin: "0 auto",
-        p: { xs: 2, sm: 3 },
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: { xs: "column", sm: "row" },
-          alignItems: { xs: "stretch", sm: "center" },
-          justifyContent: "space-between",
-          gap: 2,
-          mb: 3,
-        }}
-      >
-        <Typography
-          variant="h5"
-          sx={{ textAlign: { xs: "center", sm: "left" } }}
-        >
-          Predefined Meals
-        </Typography>
-        <Button
-          fullWidth
-          sx={{ maxWidth: { sm: "auto" } }}
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handleOpenDialog}
-        >
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="space-y-0.5">
+          <h2 className="text-2xl font-bold tracking-tight">
+            Predefined Meals
+          </h2>
+          <p className="text-muted-foreground">
+            Manage your meal templates for meal planning.
+          </p>
+        </div>
+        <Button onClick={handleOpenDialog} className="w-full sm:w-auto">
+          <Plus className="mr-2 h-4 w-4" />
           Add New Meal
         </Button>
-      </Box>
+      </div>
 
-      {["breakfast", "lunch", "dinner"].map((mealType) => (
-        <Box key={mealType} sx={{ mb: 4 }}>
-          <Typography
-            variant="h6"
-            sx={{
-              textTransform: "capitalize",
-              mb: 2,
-              textAlign: { xs: "center", sm: "left" },
-            }}
-          >
-            {mealType}
-          </Typography>
-          <List sx={{ p: 0 }}>
-            {meals[mealType]?.map((meal, index) => (
-              <Paper key={index} sx={{ mb: 2, p: { xs: 1, sm: 2 } }}>
-                <ListItem sx={{ px: { xs: 1, sm: 2 }, py: { xs: 2, sm: 1 } }}>
-                  <ListItemText
-                    primary={
-                      <Typography sx={{ wordBreak: "break-word" }}>
-                        {meal.name}
-                      </Typography>
-                    }
-                    secondary={
-                      <Stack
-                        direction="row"
-                        spacing={1}
-                        sx={{ mt: 1 }}
-                        flexWrap="wrap"
-                      >
-                        {meal.ingredients.map((ingredient, i) => (
-                          <Chip
-                            key={i}
-                            label={ingredient}
-                            size="small"
-                            sx={{ mb: 1 }}
-                          />
-                        ))}
-                      </Stack>
-                    }
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton
-                      edge="end"
-                      aria-label="delete"
-                      onClick={() => handleDeleteMeal(mealType, index)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              </Paper>
-            ))}
-          </List>
-        </Box>
-      ))}
+      <div className="grid gap-6">
+        {["breakfast", "lunch", "dinner"].map((mealType) => (
+          <div key={mealType} className="space-y-4">
+            <h3 className="text-lg font-semibold capitalize">{mealType}</h3>
 
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        maxWidth="sm"
-        fullWidth
-        sx={{
-          "& .MuiDialog-paper": {
-            margin: { xs: 2, sm: "auto" },
-            width: { xs: "calc(100% - 32px)", sm: "600px" },
-          },
-        }}
-      >
-        <DialogTitle sx={{ textAlign: { xs: "center", sm: "left" } }}>
-          Add New Predefined Meal
-        </DialogTitle>
-        <DialogContent>
-          <Box sx={{ pt: 2 }}>
-            <TextField
-              fullWidth
-              label="Meal Name"
-              value={newMeal.name}
-              onChange={(e) => setNewMeal({ ...newMeal, name: e.target.value })}
-              sx={{ mb: 2 }}
-            />
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <InputLabel>Meal Type</InputLabel>
-              <Select
-                value={newMeal.type}
-                label="Meal Type"
-                onChange={(e) =>
-                  setNewMeal({ ...newMeal, type: e.target.value })
-                }
-              >
-                <MenuItem value="breakfast">Breakfast</MenuItem>
-                <MenuItem value="lunch">Lunch</MenuItem>
-                <MenuItem value="dinner">Dinner</MenuItem>
-              </Select>
-            </FormControl>
+            {meals[mealType]?.length === 0 ? (
+              <div className="flex h-24 items-center justify-center rounded-lg border border-dashed">
+                <p className="text-sm text-muted-foreground">
+                  No {mealType} meals defined. Add some to get started.
+                </p>
+              </div>
+            ) : (
+              <div className="grid gap-3">
+                {meals[mealType]?.map((meal, index) => (
+                  <Card key={index}>
+                    <CardContent className="p-4">
+                      <div className="flex justify-between items-start">
+                        <div className="space-y-2">
+                          <h4 className="font-medium">{meal.name}</h4>
+                          <div className="flex flex-wrap gap-1">
+                            {meal.ingredients.map((ingredient, i) => (
+                              <span
+                                key={i}
+                                className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80"
+                              >
+                                {ingredient}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <Button
+                          variant="destructive"
+                          size="icon"
+                          onClick={() => handleDeleteMeal(mealType, index)}
+                        >
+                          <Trash className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
 
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: { xs: "column", sm: "row" },
-                gap: 1,
-                mb: 2,
-              }}
-            >
-              <TextField
-                fullWidth
-                label="Add Ingredient"
-                value={newMeal.currentIngredient}
-                onChange={(e) =>
-                  setNewMeal({ ...newMeal, currentIngredient: e.target.value })
-                }
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    handleAddIngredient();
+      <Dialog.Root open={openDialog} onOpenChange={setOpenDialog}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+          <Dialog.Content className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg md:w-full">
+            <Dialog.Title className="text-lg font-semibold">
+              Add New Predefined Meal
+            </Dialog.Title>
+
+            <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <Label htmlFor="meal-name">Meal Name</Label>
+                <Input
+                  id="meal-name"
+                  placeholder="Enter meal name"
+                  value={newMeal.name}
+                  onChange={(e) =>
+                    setNewMeal({ ...newMeal, name: e.target.value })
                   }
-                }}
-              />
-              <Button
-                variant="contained"
-                onClick={handleAddIngredient}
-                sx={{ width: { xs: "100%", sm: "auto" } }}
-              >
-                Add
-              </Button>
-            </Box>
-
-            <Stack direction="row" spacing={1} flexWrap="wrap">
-              {newMeal.ingredients.map((ingredient, index) => (
-                <Chip
-                  key={index}
-                  label={ingredient}
-                  onDelete={() => handleRemoveIngredient(index)}
-                  sx={{ mb: 1 }}
                 />
-              ))}
-            </Stack>
-          </Box>
-        </DialogContent>
-        <DialogActions
-          sx={{
-            flexDirection: { xs: "column", sm: "row" },
-            p: { xs: 2, sm: 2 },
-            gap: { xs: 1, sm: 0 },
-          }}
-        >
-          <Button
-            onClick={handleCloseDialog}
-            fullWidth
-            sx={{ maxWidth: { sm: "auto" } }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleSubmit}
-            variant="contained"
-            disabled={!newMeal.name || newMeal.ingredients.length === 0}
-            fullWidth
-            sx={{ maxWidth: { sm: "auto" } }}
-          >
-            Save Meal
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="meal-type">Meal Type</Label>
+                <select
+                  id="meal-type"
+                  value={newMeal.type}
+                  onChange={(e) =>
+                    setNewMeal({ ...newMeal, type: e.target.value })
+                  }
+                  className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <option value="breakfast">Breakfast</option>
+                  <option value="lunch">Lunch</option>
+                  <option value="dinner">Dinner</option>
+                </select>
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="ingredient">Add Ingredient</Label>
+                <div className="flex gap-2">
+                  <Input
+                    id="ingredient"
+                    placeholder="Enter ingredient"
+                    value={newMeal.currentIngredient}
+                    onChange={(e) =>
+                      setNewMeal({
+                        ...newMeal,
+                        currentIngredient: e.target.value,
+                      })
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleAddIngredient();
+                      }
+                    }}
+                  />
+                  <Button onClick={handleAddIngredient} type="button">
+                    Add
+                  </Button>
+                </div>
+              </div>
+
+              {newMeal.ingredients.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-2">
+                  {newMeal.ingredients.map((ingredient, index) => (
+                    <div
+                      key={index}
+                      className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                    >
+                      {ingredient}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveIngredient(index)}
+                        className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                      >
+                        <X className="h-3 w-3" />
+                        <span className="sr-only">Remove</span>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
+              <Button variant="outline" onClick={handleCloseDialog}>
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSubmit}
+                disabled={!newMeal.name || newMeal.ingredients.length === 0}
+              >
+                Save Meal
+              </Button>
+            </div>
+
+            <Dialog.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+              <X className="h-4 w-4" />
+              <span className="sr-only">Close</span>
+            </Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+    </div>
   );
 };
 

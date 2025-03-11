@@ -1,70 +1,81 @@
-# Getting Started with Create React App
+# Fridge Meal Planner
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern web application to help you manage your fridge inventory and plan meals based on what you have available.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Inventory Management**: Keep track of items in your fridge with quantities
+- **Meal Planning**: Generate meal plans based on your available ingredients
+- **Predefined Meals**: Create and manage meal templates for easy planning
+- **Low Stock Notifications**: Get notified when items are running low
 
-### `npm start`
+## Technology Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **React 18**: Latest stable version of React for improved performance
+- **Tailwind CSS**: Utility-first CSS framework for styling
+- **shadcn UI**: High-quality UI components built with Radix UI and Tailwind CSS
+- **React Router**: For navigation between pages
+- **Local Storage**: For persisting data locally
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js (v16 or higher)
+- npm or yarn
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   ```
+   git clone https://github.com/arpitmohapatra/fridge-meal-planner.git
+   cd fridge-meal-planner
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Install dependencies:
 
-### `npm run eject`
+   ```
+   npm install
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Start the development server:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```
+   npm start
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. Open [http://localhost:3000/fridge-meal-planner](http://localhost:3000/fridge-meal-planner) to view it in your browser.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Build and Deployment
 
-## Learn More
+To build the app for production:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+npm run build
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To deploy to GitHub Pages:
 
-### Code Splitting
+```
+npm run deploy
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Project Structure
 
-### Analyzing the Bundle Size
+- `src/components/ui/`: shadcn UI components
+- `src/pages/`: Main application pages
+- `src/services/`: Service functions for data management
+- `src/lib/`: Utility functions
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Recent Updates
 
-### Making a Progressive Web App
+- Upgraded to React 18.3.1
+- Implemented shadcn UI components
+- Added Tailwind CSS for styling
+- Modernized UI for better usability
+- Improved mobile responsiveness
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## License
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is licensed under the MIT License - see the LICENSE file for details.

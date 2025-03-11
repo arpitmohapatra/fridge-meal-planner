@@ -3,17 +3,13 @@ import {
   generateWeeklyMealPlan,
   getSavedMealPlan,
 } from "../services/mealPlanService";
-import {
-  Container,
-  Typography,
-  Card,
-  CardContent,
-  Grid2,
-  Button,
-  Box,
-} from "@mui/material";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import RefreshIcon from "@mui/icons-material/Refresh";
+
+// Import shadcn UI components
+import { Button } from "../components/ui/button";
+import { Card, CardContent } from "../components/ui/card";
+
+// Import icons
+import { Utensils, RefreshCw } from "lucide-react";
 
 function MealPlannerPage() {
   const [mealPlan, setMealPlan] = useState({});
@@ -33,84 +29,69 @@ function MealPlannerPage() {
     setMealPlan(newPlan);
   };
 
+  const days = Object.entries(mealPlan);
+
   return (
-    <Container maxWidth="lg" sx={{ py: 2, px: { xs: 2, sm: 3, md: 4 } }}>
-      <Box
-        display="flex"
-        flexDirection={{ xs: "column", sm: "row" }}
-        justifyContent="space-between"
-        alignItems={{ xs: "flex-start", sm: "center" }}
-        gap={2}
-        mb={3}
-      >
-        <Typography
-          variant="h4"
-          component="h1"
-          gutterBottom
-          sx={{
-            fontSize: { xs: "1.75rem", sm: "2rem", md: "2.5rem" },
-          }}
-        >
-          <RestaurantIcon
-            sx={{ mr: 1, fontSize: { xs: 28, sm: 32, md: 35 } }}
-          />
-          Weekly Meal Plan
-        </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={regenerateMealPlan}
-          startIcon={<RefreshIcon />}
-          fullWidth
-          sx={{
-            maxWidth: { xs: "100%", sm: "auto" },
-          }}
-        >
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="space-y-0.5">
+          <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2">
+            <Utensils className="h-6 w-6" />
+            Weekly Meal Plan
+          </h2>
+          <p className="text-muted-foreground">
+            Your personalized meal plan based on your inventory.
+          </p>
+        </div>
+        <Button onClick={regenerateMealPlan} className="w-full sm:w-auto">
+          <RefreshCw className="mr-2 h-4 w-4" />
           Regenerate Plan
         </Button>
-      </Box>
+      </div>
 
-      <Grid2 container spacing={2}>
-        {Object.entries(mealPlan).map(([day, meals]) => (
-          <Grid2 item xs={12} sm={6} lg={4} key={day}>
-            <Card elevation={3}>
-              <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
-                <Typography
-                  variant="h5"
-                  component="h2"
-                  gutterBottom
-                  color="primary"
-                  sx={{ fontSize: { xs: "1.25rem", sm: "1.5rem" } }}
-                >
+      {days.length === 0 ? (
+        <div className="flex h-60 items-center justify-center rounded-lg border border-dashed">
+          <div className="text-center">
+            <h3 className="text-lg font-medium">No meal plan generated</h3>
+            <p className="text-sm text-muted-foreground">
+              Click the "Regenerate Plan" button to create a meal plan.
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {days.map(([day, meals]) => (
+            <Card key={day} className="overflow-hidden">
+              <div className="bg-primary p-4">
+                <h3 className="font-semibold text-lg text-primary-foreground">
                   {day}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  gutterBottom
-                  sx={{ fontSize: { xs: "0.875rem", sm: "1rem" } }}
-                >
-                  <strong>Breakfast:</strong> {meals.breakfast.name}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  gutterBottom
-                  sx={{ fontSize: { xs: "0.875rem", sm: "1rem" } }}
-                >
-                  <strong>Lunch:</strong> {meals.lunch.name}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  gutterBottom
-                  sx={{ fontSize: { xs: "0.875rem", sm: "1rem" } }}
-                >
-                  <strong>Dinner:</strong> {meals.dinner.name}
-                </Typography>
+                </h3>
+              </div>
+              <CardContent className="p-4 space-y-3">
+                <div>
+                  <h4 className="font-medium text-sm text-muted-foreground">
+                    Breakfast
+                  </h4>
+                  <p>{meals.breakfast.name}</p>
+                </div>
+                <div>
+                  <h4 className="font-medium text-sm text-muted-foreground">
+                    Lunch
+                  </h4>
+                  <p>{meals.lunch.name}</p>
+                </div>
+                <div>
+                  <h4 className="font-medium text-sm text-muted-foreground">
+                    Dinner
+                  </h4>
+                  <p>{meals.dinner.name}</p>
+                </div>
               </CardContent>
             </Card>
-          </Grid2>
-        ))}
-      </Grid2>
-    </Container>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

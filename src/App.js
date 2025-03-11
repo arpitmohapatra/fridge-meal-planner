@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { requestNotificationPermission } from "./services/notificationService";
+import Favicon from "./components/Favicon";
 
 // Import shadcn UI components
 import { Button } from "./components/ui/button";
@@ -57,8 +58,9 @@ function App() {
   }, []);
 
   return (
-    <ToastProvider>
-      <Router>
+    <Router>
+      <ToastProvider>
+        <Favicon />
         <div className="min-h-screen bg-background">
           {/* Header */}
           <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
@@ -184,10 +186,10 @@ function App() {
               <ToastDescription>{toastMessage.description}</ToastDescription>
             </Toast>
           )}
-          <ToastViewport />
         </div>
-      </Router>
-    </ToastProvider>
+        <ToastViewport />
+      </ToastProvider>
+    </Router>
   );
 }
 

@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/fridge-meal-planner/static/css/main.e8872076.css",
-    "main.js": "/fridge-meal-planner/static/js/main.83b52de0.js",
+    "main.js": "/fridge-meal-planner/static/js/main.3faf2264.js",
     "static/js/488.9ff161db.chunk.js": "/fridge-meal-planner/static/js/488.9ff161db.chunk.js",
     "index.html": "/fridge-meal-planner/index.html",
     "main.e8872076.css.map": "/fridge-meal-planner/static/css/main.e8872076.css.map",
-    "main.83b52de0.js.map": "/fridge-meal-planner/static/js/main.83b52de0.js.map",
+    "main.3faf2264.js.map": "/fridge-meal-planner/static/js/main.3faf2264.js.map",
     "488.9ff161db.chunk.js.map": "/fridge-meal-planner/static/js/488.9ff161db.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e8872076.css",
-    "static/js/main.83b52de0.js"
+    "static/js/main.3faf2264.js"
   ]
 }
